@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Language, Profile, Project } from './types';
 import { Navbar } from './components/Navbar';
@@ -10,7 +9,6 @@ import { Services } from './components/Services';
 import { About } from './components/About';
 import BentoFooter from './components/BentoFooter';
 import { CosmicBackground } from './components/CosmicBackground';
-import InfiniteTestimonials from './components/InfiniteTestimonials';
 import StatsSection from './components/StatsSection';
 import ScrollProgress from './components/ScrollProgress';
 import ROICalculator from './components/ROICalculator';
@@ -80,7 +78,6 @@ export default function App() {
         <main className="relative w-full">
           <Hero lang={lang} profile={profileData} />
           <StatsSection />
-          <InfiniteTestimonials />
           <PainMatrix lang={lang} />
           <WallOfLove />
           {/* NEW STORE SECTION */}

@@ -15,7 +15,6 @@ export default function ProductCard({ product }: { product: any }) {
   const y = useMotionValue(0);
 
   // Smooth Physics (Stiffness = Tension, Damping = Friction)
-  // High stiffness + medium damping = snappy but smooth spring
   const xSpring = useSpring(x, { stiffness: 300, damping: 30 });
   const ySpring = useSpring(y, { stiffness: 300, damping: 30 });
 
@@ -35,7 +34,6 @@ export default function ProductCard({ product }: { product: any }) {
     const height = rect.height;
 
     // Calculate rotation based on cursor position relative to card center
-    // Range: -20 to +20 degrees
     const rY = ((e.clientX - rect.left) / width - 0.5) * ROTATION_RANGE * 2; 
     const rX = ((e.clientY - rect.top) / height - 0.5) * -ROTATION_RANGE * 2;
 
@@ -48,7 +46,6 @@ export default function ProductCard({ product }: { product: any }) {
   };
 
   const handleMouseLeave = () => {
-    // Reset rotation to flat when mouse leaves
     x.set(0);
     y.set(0);
   };
@@ -59,11 +56,17 @@ export default function ProductCard({ product }: { product: any }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ transform, transformStyle: "preserve-3d" }}
-      className="relative group flex flex-col h-full rounded-2xl bg-zinc-900 border border-white/10 shadow-2xl cursor-default"
+      className="relative group flex flex-col h-full rounded-2xl bg-zinc-900 border border-white/20 shadow-2xl cursor-default overflow-hidden"
     >
+      {/* NOISE TEXTURE OVERLAY */}
+      <div 
+        className="absolute inset-0 opacity-[0.03] pointer-events-none z-0 mix-blend-overlay" 
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
+      ></div>
+
       {/* --- IMAGE LAYER (Background Depth) --- */}
       <div 
-        className="relative h-48 w-full overflow-hidden bg-zinc-800 rounded-t-2xl"
+        className="relative h-48 w-full overflow-hidden bg-zinc-800 rounded-t-2xl border-b border-white/5"
         style={{ transform: "translateZ(20px)" }}
       >
         <img 
@@ -86,7 +89,7 @@ export default function ProductCard({ product }: { product: any }) {
 
       {/* --- CONTENT LAYER (Foreground Depth) --- */}
       <div 
-        className="flex flex-col flex-1 p-6 relative z-10 bg-zinc-900 rounded-b-2xl"
+        className="flex flex-col flex-1 p-6 relative z-10 rounded-b-2xl"
         style={{ transform: "translateZ(40px)" }} // Pops out even further
       >
         <div className="flex justify-between items-start mb-2">
